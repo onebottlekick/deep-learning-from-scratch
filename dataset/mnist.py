@@ -18,7 +18,8 @@ key_file = {
     'test_label':'t10k-labels-idx1-ubyte.gz'
 }
 
-dataset_dir = os.path.dirname(os.path.abspath(__file__))
+dataset_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'digit_mnist')
+os.makedirs(dataset_dir, exist_ok=True)
 save_file = dataset_dir + "/mnist.pkl"
 
 train_num = 60000
@@ -37,7 +38,7 @@ def _download(file_name):
     urllib.request.urlretrieve(url_base + file_name, file_path)
     print("Done")
     
-def download_mnist():
+def download():
     for v in key_file.values():
        _download(v)
         
@@ -71,8 +72,8 @@ def _convert_numpy():
     
     return dataset
 
-def init_mnist():
-    download_mnist()
+def init():
+    download()
     dataset = _convert_numpy()
     print("Creating pickle file ...")
     with open(save_file, 'wb') as f:
@@ -87,7 +88,7 @@ def _change_one_hot_label(X):
     return T
     
 
-def load_mnist(normalize=True, flatten=True, one_hot_label=False):
+def load_data(normalize=True, flatten=True, one_hot_label=False):
     """MNIST 데이터셋 읽기
     
     Parameters
@@ -103,7 +104,7 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
     (훈련 이미지, 훈련 레이블), (시험 이미지, 시험 레이블)
     """
     if not os.path.exists(save_file):
-        init_mnist()
+        init()
         
     with open(save_file, 'rb') as f:
         dataset = pickle.load(f)
@@ -125,4 +126,4 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
 
 
 if __name__ == '__main__':
-    init_mnist()
+    init()
