@@ -9,6 +9,7 @@ import pickle
 import os, sys
 sys.path.append(os.pardir)
 from common.cuda import np
+import numpy
 
 
 url_base = 'https://github.com/zalandoresearch/fashion-mnist/raw/master/data/fashion/'
@@ -46,9 +47,9 @@ def download():
 def _load_label(file_name):
     file_path = dataset_dir + "/" + file_name
     
-    print("Converting " + file_name + " to NumPy Array ...")
+    print("Converting " + file_name + " to Array ...")
     with gzip.open(file_path, 'rb') as f:
-            labels = np.frombuffer(f.read(), np.uint8, offset=8)
+            labels = np.array(numpy.frombuffer(f.read(), numpy.uint8, offset=8))
     print("Done")
     
     return labels
@@ -56,9 +57,9 @@ def _load_label(file_name):
 def _load_img(file_name):
     file_path = dataset_dir + "/" + file_name
     
-    print("Converting " + file_name + " to NumPy Array ...")    
+    print("Converting " + file_name + " to Array ...")    
     with gzip.open(file_path, 'rb') as f:
-            data = np.frombuffer(f.read(), np.uint8, offset=16)
+            data = np.array(numpy.frombuffer(f.read(), numpy.uint8, offset=16))
     data = data.reshape(-1, img_size)
     print("Done")
     
