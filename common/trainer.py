@@ -1,7 +1,7 @@
 # coding: utf-8
 import sys, os
 sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
-import numpy as np
+from common.cuda import np, gpu_enable
 from common.optimizer import *
 
 class Trainer:
@@ -45,7 +45,12 @@ class Trainer:
         self.optimizer.update(self.network.params, grads)
         
         loss = self.network.loss(x_batch, t_batch)
-        self.train_loss_list.append(loss)
+        
+        if gpu_enable:
+            self.train_loss_list.append(loss.get())
+        else:
+            self.train_loss_list.append(loss)
+            
         if self.verbose: print("train loss:" + str(loss))
         
         if self.current_iter % self.iter_per_epoch == 0:
@@ -60,8 +65,13 @@ class Trainer:
                 
             train_acc = self.network.accuracy(x_train_sample, t_train_sample)
             test_acc = self.network.accuracy(x_test_sample, t_test_sample)
-            self.train_acc_list.append(train_acc)
-            self.test_acc_list.append(test_acc)
+            
+            if gpu_enable:
+                self.train_acc_list.append(train_acc.get())
+                self.test_acc_list.append(test_acc.get())
+            else:
+                self.train_acc_list.append(train_acc)
+                self.test_acc_list.append(test_acc)
 
             if self.verbose: print("=== epoch:" + str(self.current_epoch) + ", train acc:" + str(train_acc) + ", test acc:" + str(test_acc) + " ===")
         self.current_iter += 1

@@ -1,7 +1,7 @@
 # coding: utf-8
 import sys, os
 sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
-import numpy as np
+from common.cuda import np
 import matplotlib.pyplot as plt
 from simple_convnet import SimpleConvNet
 from matplotlib.image import imread

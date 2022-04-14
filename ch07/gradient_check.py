@@ -1,5 +1,8 @@
 # coding: utf-8
-import numpy as np
+import os, sys
+sys.path.append(os.pardir)
+
+from common.cuda import np
 from simple_convnet import SimpleConvNet
 
 network = SimpleConvNet(input_dim=(1,10, 10), 

@@ -1,5 +1,5 @@
 # coding: utf-8
-import numpy as np
+from common.cuda import np
 
 def _numerical_gradient_1d(f, x):
     h = 1e-4 # 0.0001

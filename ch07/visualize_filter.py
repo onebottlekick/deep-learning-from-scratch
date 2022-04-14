@@ -1,5 +1,5 @@
 # coding: utf-8
-import numpy as np
+from common.cuda import np
 import matplotlib.pyplot as plt
 from simple_convnet import SimpleConvNet
 

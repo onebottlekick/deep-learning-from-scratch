@@ -6,8 +6,9 @@ except ImportError:
 import os.path
 import gzip
 import pickle
-import os
-import numpy as np
+import os, sys
+sys.path.append(os.pardir)
+from common.cuda import np
 
 
 url_base = 'http://yann.lecun.com/exdb/mnist/'
